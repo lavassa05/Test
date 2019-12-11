@@ -1,0 +1,87 @@
+package jbk; 
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class B {
+	@Test(priority=1)
+	
+	public void TestTitle1() {  //checking title
+		System.setProperty("Webdriver.chrome.driver","chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.get("file:///C:/Offline%20Website/index.html");
+		
+		String expTitle ="Java By Kiran";
+		String actTtitle=driver.findElement(By.xpath("/html/body/div/div[1]/a/b")).getText();
+		Assert.assertEquals(actTtitle, expTitle);
+		System.out.println("test case 1 passsed");
+		driver.close();	
+	}	
+	@Test(priority=2)
+	public void TestLineBelowTitle2() {//checking line below title
+	
+		System.setProperty("Webdriver.chrome.driver","chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.get("file:///C:/Offline%20Website/index.html");
+		
+		String expected="JAVA | SELENIUM | PYTHON";
+		String actual=driver.findElement(By.xpath("/html/body/div/div[1]/a/h4")).getText();
+		Assert.assertEquals(actual, expected);
+		System.out.println("tast case 2 passed");
+		driver.close();
+		
+		
+	}
+	@Test(priority=3)
+	public void CheckUserNameErrorMsg3() {//Empty Username
+	
+		System.setProperty("Webdriver.chrome.driver","chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.get("file:///C:/Offline%20Website/index.html");
+		
+		driver.findElement(By.id("email")).sendKeys("");
+	//	driver.findElement(By.id("password")).sendKeys("");
+		driver.findElement(By.xpath("//*[@id=\"form\"]/div[3]/div/button")).click();
+		
+		String actual=driver.findElement(By.xpath("//*[@id=\"email_error\"]")).getText();//xpath of email error
+		String expected="Please enter email.";
+		Assert.assertEquals(actual, expected);
+		System.out.println("test case 3 passed");
+		driver.close();		
+	}
+	@Test(priority=4)
+	public void CheckPasswordErrorMess4() {//Empty password
+		System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.get("file:///C:/Offline%20Website/pages/examples/logout.html");
+		
+		//driver.findElement(By.id("email")).sendKeys("");
+		driver.findElement(By.id("password")).sendKeys("");
+		driver.findElement(By.xpath("//*[@id=\"form\"]/div[3]/div/button")).click();
+		
+		String exp = "Please enter password.";
+		String act= driver.findElement(By.xpath("//*[@id=\"password_error\"]")).getText();//xpath of password error
+		Assert.assertEquals(act, exp);
+		System.out.println("test case 4 passed");
+		driver.close();
+	}
+	@Test(priority=5)
+	public void LoginAndTitle5() {//Logine correct and get next page title
+		System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.get("file:///C:/Offline%20Website/pages/examples/logout.html");
+		
+		driver.findElement(By.id("email")).sendKeys("kiran@gmail.com");
+		driver.findElement(By.id("password")).sendKeys("123456");
+		driver.findElement(By.xpath("//*[@id=\"form\"]/div[3]/div/button")).click();
+		
+		String exp = "JavaByKiran | Dashboard";
+		String act= driver.getTitle();
+		Assert.assertEquals(act, exp);
+		System.out.println("test case 5 passed");
+		driver.close();
+	}
+}
